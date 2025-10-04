@@ -20,19 +20,22 @@ def update():
     else: print('Update succeeded')
     return err
 
-def score():
+def score(netuid=NETUID):
     sc = pd.DataFrame(columns=['uid', 'hotkey', 'coldkey', 'count', 'index', 'block', 'balance', 'score'])
     ckblk = [{d['address']:d['fromBlock'] for d in requests.get(f'{INDEX_API}/{i}').json()['delegators']} for i in INDEX_IDS]
+    ckbal = {}
 
-    st = bt.Subtensor()
-    mg = st.get_metagraph_info(NETUID)
+    st = bt.Subtensor('finney')
+    mg = st.get_metagraph_info(netuid)
     nn = st.all_subnets()
+
+    def scoring(bal, blk):
+        return bal ** GAMMA * (1 + KAPPA * math.log(1 + min((mg.block - blk) / 7200, DMAX) / 30))
 
     def balance(ck):
         return sum([float(s.stake) * float(nn[s.netuid].price) for s in st.get_stake_for_coldkey(ck)])
 
-    def scoring(bal, blk):
-        return bal ** GAMMA * (1 + KAPPA * math.log(1 + (mg.block - blk) / 7200 / 30))
+    for ck in set(mg.coldkeys): ckbal[ck] = balance(ck)
 
     for i in range(len(mg.rank)):
         hk, ck = mg.hotkeys[i], mg.coldkeys[i]
@@ -40,7 +43,7 @@ def score():
             idx = [ck in kk for kk in ckblk].index(True)
             blk = ckblk[idx][ck]
         except: idx, blk = [float('nan')] * 2
-        bal = balance(ck)
+        bal = ckbal[ck]
         sc.loc[len(sc)] = i, hk, ck, 0, idx, blk, bal, scoring(bal, blk)
 
     sc['count'] = sc.join(sc.groupby('coldkey').count()['uid'], 'coldkey', lsuffix='_')['uid']

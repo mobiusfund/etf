@@ -31,6 +31,8 @@ python -m pip install -e .
 ```bash
 # optional
 . .venv/bin/activate
+# quick start
+ETF/bin/validator
 #
 pm2 start neurons/validator.py \
     --name etf-validator -- \

@@ -4,4 +4,4 @@ cd ..
 python=python
 test `which python3` && python=python3
 test `which python` && python=python
-$python -c 'import core.functions as fn; fn.score()'
+$python -c "import core.functions as fn; fn.score($1)"

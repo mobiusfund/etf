@@ -5,7 +5,7 @@
 
 ## Intro
 
-Please see our [whitepaper](https://typst.app/project/rTX5ek4WtV9p2HXuvR4ZbD) for a comprehensive overview.
+Please see our [whitepaper](https://typst.app/project/RWPpojjbNCGiXO8mP5pX42) for a comprehensive overview.
 
 ## Installation
 

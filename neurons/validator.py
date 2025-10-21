@@ -60,9 +60,9 @@ class Validator(BaseValidatorNeuron):
     def score(self, _):
         time.sleep(60)
         while True:
-            if int(time.strftime('%M')) in [25, 55]: break
+            if int(time.strftime('%M')) in [20, 50]: break
             time.sleep(1)
-        time.sleep(random.randint(25, 55))
+        time.sleep(random.randint(20, 50))
         try:
             bt.logging.info('Calculating score...')
             self.scores = fn.score()

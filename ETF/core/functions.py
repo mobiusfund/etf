@@ -30,7 +30,7 @@ def score(netuid=NETUID):
     nn = st.all_subnets()
 
     def scoring(bal, blk):
-        return bal ** GAMMA * (1 + KAPPA * math.log(1 + min((mg.block - blk) / 7200, DMAX) / 30))
+        return bal ** GAMMA * (1 + KAPPA * math.log(1 + min((mg.block - blk) / 7200, DMAX) / DNORM))
 
     def balance(ck):
         return sum([float(s.stake) * float(nn[s.netuid].price) for s in st.get_stake_for_coldkey(ck)])

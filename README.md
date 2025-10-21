@@ -1,12 +1,20 @@
 <div align="center">
 
-# HODL - The ETF Subnet 
-*TAO staking done right*
+# HODL - The ETF Subnet
+### Incentivizing long-term conviction
 </div>
 
 ## Intro
 
-Please see our [whitepaper](./Docs/HODL%20-%20The%20ETF%20Subnet.pdf) for a comprehensive overview.
+Please reference our [whitepaper](./Docs/HODL%20-%20The%20ETF%20Subnet.pdf) for a comprehensive overview.
+
+## Roadmap
+
+- V1, Live at launch: HODL ETF
+- V2, Q1 2026: ETF Exchange
+- V3, Q3 2026: Futures and Options
+
+Transaction fees generated from V2/V3 will have a major percentage committed to automatic buybacks.
 
 ## Installation
 
@@ -39,7 +47,22 @@ pm2 start neurons/validator.py \
     --name etf-validator -- \
     --wallet.name {coldkey} \
     --wallet.hotkey {hotkey} \
-    --netuid XX #XXX --subtensor.network test
+    --netuid 118
+```
+
+## Mining
+
+Please stake the miner coldkey in one of the supported [TrustedStake indexes](https://app.trustedstake.ai/strat) in order to receive emissions. Currently supported indexes are: TSBCSI, Top 10, and Full Stack.
+
+Total subnet emissions are equally divided among the supported indexes.
+
+Miner score is calculated using the following formula, where $$S$$ is the coldkey stake amount in Tao, and $$D$$ is the stake duration in days:
+
+```math
+\begin{aligned}
+& score = S \cdot \left( 1 + 0.25 \cdot ln \left( 1 + \frac {\ D\ } {\ 30\ } \right) \right)
+\\
+\end{aligned}
 ```
 
 ## License

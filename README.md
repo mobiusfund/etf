@@ -1,6 +1,7 @@
 <div align="center">
 
-# Subnet ETF - TAO staking done right
+# HODL - The ETF Subnet 
+*TAO staking done right*
 </div>
 
 ## Intro

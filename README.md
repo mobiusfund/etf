@@ -6,7 +6,7 @@
 
 ## Intro
 
-Please see our [whitepaper](https://typst.app/project/RWPpojjbNCGiXO8mP5pX42) for a comprehensive overview.
+Please see our [whitepaper](./Docs/HODL%20-%20The%20ETF%20Subnet.pdf) for a comprehensive overview.
 
 ## Installation
 

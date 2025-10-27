@@ -1,4 +1,5 @@
 RAWGIT_ROOT = 'https://raw.githubusercontent.com/mobiusfund/etf'
+FIRST_BLOCK = 6706812
 NETUID = 118
 OWNER_UID = 0
 

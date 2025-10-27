@@ -18,7 +18,9 @@ Transaction fees generated from V2/V3 will have a major percentage committed to 
 
 ## Installation
 
-This subnet is zero code for miners. Please follow the [Bittensor document](https://docs.learnbittensor.org/miners/) to register a hotkey.
+This subnet is zero code for miners. Please follow the [Bittensor document](https://docs.learnbittensor.org/miners/) to register a hotkey. Advanced miners can follow the simple setup below and run command `ETF/bin/validator` to check live scores.
+
+Please avoid using the root account, and make sure Python3 is available as command `python` under a regular user account. Ubuntu 22.04 is the only officially supported OS, although many other OSes can also work with minimum tweaks, including macOS.
 
 #### Setup
 

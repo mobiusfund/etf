@@ -41,7 +41,7 @@ def score(netuid=NETUID):
         hk, ck = mg.hotkeys[i], mg.coldkeys[i]
         try:
             idx = [ck in kk for kk in ckblk].index(True)
-            blk = ckblk[idx][ck]
+            blk = max(ckblk[idx][ck], FIRST_BLOCK)
         except: idx, blk = [float('nan')] * 2
         bal = ckbal[ck]
         sc.loc[len(sc)] = i, hk, ck, 0, idx, blk, bal, scoring(bal, blk)
@@ -55,9 +55,17 @@ def score(netuid=NETUID):
         sci = sc[sc['index'] == i]['score'].sum()
         if sci: sc.loc[sc['index'] == i, 'score'] *= ir[i] * scz / sci
 
+    it = [sc[sc['index'] == i]['balance'].sum() for i in range(len(ir))]
+    tt = sc[~sc['index'].isna()]['balance'].sum()
+
     sc['balance'] = sc['balance'].round(2)
     sc.loc[sc['score'].isna(), 'score'] = 0
     if not sc['score'].sum(): sc.loc[sc['uid'] == OWNER_UID, 'score'] = 1
 
+    ir = str([f'{i:.2f}' for i in ir]).replace("'", '')
+    it = str([f'{i:.2f}' for i in it]).replace("'", '')
     print(sc.to_string(index=False))
+    print(f'index ratio: {ir}')
+    print(f'index total: {it}, total: {tt:.2f} TAO')
+
     return sc['score'].values

@@ -58,6 +58,8 @@ Please stake the miner coldkey in one of the supported [TrustedStake indexes](ht
 
 Total subnet emissions are equally divided among the supported indexes.
 
+To avoid conflicts of interest, the TrustedStake app completely ignores subnet 118. It will not include 118 in any index, nor stake/unstake any 118 alpha.
+
 Miner score is calculated using the following formula, where $$S$$ is the coldkey stake amount in Tao, and $$D$$ is the stake duration in days:
 
 ```math

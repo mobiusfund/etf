@@ -55,8 +55,9 @@ def score(netuid=NETUID):
         sci = sc[sc['index'] == i]['score'].sum()
         if sci: sc.loc[sc['index'] == i, 'score'] *= ir[i] * scz / sci
 
-    it = [sc[sc['index'] == i]['balance'].sum() for i in range(len(ir))]
     tt = sc[~sc['index'].isna()]['balance'].sum()
+    it = [sc[sc['index'] == i]['balance'].sum() for i in range(len(INDEX_IDS))]
+    ic = [len(sc[sc['index'] == i]) for i in range(len(INDEX_IDS))]
 
     sc['balance'] = sc['balance'].round(2)
     sc.loc[sc['score'].isna(), 'score'] = 0
@@ -67,5 +68,6 @@ def score(netuid=NETUID):
     print(sc.to_string(index=False))
     print(f'index ratio: {ir}')
     print(f'index total: {it}, total: {tt:.2f} TAO')
+    print(f'miner count: {ic}, total: {sum(ic)}')
 
     return sc['score'].values

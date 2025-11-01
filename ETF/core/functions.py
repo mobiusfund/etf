@@ -65,7 +65,7 @@ def score(netuid=NETUID):
 
     ir = str([f'{i:.2f}' for i in ir]).replace("'", '')
     it = str([f'{i:.2f}' for i in it]).replace("'", '')
-    print(sc.sort_values('score').to_string(index=False))
+    print(sc.sort_values(['score', 'block'], na_position='first').to_string(index=False))
     print(f'index ratio: {ir}')
     print(f'index total: {it}, total: {tt:.2f} TAO')
     print(f'miner count: {ic}, total: {sum(ic)}')

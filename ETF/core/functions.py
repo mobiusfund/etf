@@ -22,7 +22,7 @@ def update():
 
 def score(netuid=NETUID):
     sc = pd.DataFrame(columns=['uid', 'hotkey', 'coldkey', 'count', 'index', 'block', 'balance', 'score'])
-    ckblk = [{d['address']:d['fromBlock'] for d in requests.get(f'{INDEX_API}/{i}').json()['delegators']} for i in INDEX_IDS]
+    ckblk = [{d['address']:d['fromBlock'] for d in requests.get(f'{INDEX_API}/{i}').json()['delegators'] if d['type'] == 'Staking'} for i in INDEX_IDS]
     ckbal = {}
 
     st = bt.Subtensor('finney')
@@ -30,13 +30,13 @@ def score(netuid=NETUID):
     nn = st.all_subnets()
 
     def scoring(bal, blk):
-        return bal ** GAMMA * (1 + KAPPA * math.log(1 + min((mg.block - blk) / 7200, DMAX) / DNORM))
+        try: return bal ** GAMMA * (1 + KAPPA * math.log(1 + min((mg.block - blk) / 7200, DMAX) / DNORM))
+        except: return float('nan')
 
     def balance(ck):
         return sum([float(s.stake) * float(nn[s.netuid].price) for s in st.get_stake_for_coldkey(ck)])
 
     for ck in set(mg.coldkeys): ckbal[ck] = balance(ck)
-
     for i in range(len(mg.rank)):
         hk, ck = mg.hotkeys[i], mg.coldkeys[i]
         try:
@@ -65,7 +65,7 @@ def score(netuid=NETUID):
 
     ir = str([f'{i:.2f}' for i in ir]).replace("'", '')
     it = str([f'{i:.2f}' for i in it]).replace("'", '')
-    print(sc.to_string(index=False))
+    print(sc.sort_values('score').to_string(index=False))
     print(f'index ratio: {ir}')
     print(f'index total: {it}, total: {tt:.2f} TAO')
     print(f'miner count: {ic}, total: {sum(ic)}')

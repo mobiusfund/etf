@@ -3,7 +3,8 @@ FIRST_BLOCK = 6706812
 NETUID = 118
 OWNER_UID = 0
 
-INDEX_API = 'https://api.app.trustedstake.ai/admin/pure-proxies'
+COLDKEY_BL = 'https://api.app.trustedstake.ai/admin/blacklist'
+INDEX_API = 'https://api.app.trustedstake.ai/admin/indexes'
 INDEX_IDS = [
     '5DyGP1DhWyg4vqxBRK4WcurKhVr2sLvrk488zwpdAX1pcCXr', # TSBCSI
     '5CiuGG5SYi4tkZRRHSBkDe85S38dEerofhBhohvFDsGCTYJh', # Top 10

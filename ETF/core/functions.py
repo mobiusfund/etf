@@ -22,7 +22,8 @@ def update():
 
 def score(netuid=NETUID):
     sc = pd.DataFrame(columns=['uid', 'hotkey', 'coldkey', 'count', 'index', 'block', 'balance', 'score'])
-    ckblk = [{d['address']:d['fromBlock'] for d in requests.get(f'{INDEX_API}/{i}').json()['delegators'] if d['type'] == 'Staking'} for i in INDEX_IDS]
+    ckblk = [{d['address']:d['fromBlock'] for d in requests.get(f'{INDEX_API}/{i}').json()['delegators']
+        if d['type'] == 'Staking' and d['address'] not in requests.get(COLDKEY_BL).json()} for i in INDEX_IDS]
     ckbal = {}
 
     st = bt.Subtensor('finney')
@@ -30,11 +31,10 @@ def score(netuid=NETUID):
     nn = st.all_subnets()
 
     def scoring(bal, blk):
-        try: return bal ** GAMMA * (1 + KAPPA * math.log(1 + min((mg.block - blk) / 7200, DMAX) / DNORM))
-        except: return float('nan')
+        return bal ** GAMMA * (1 + KAPPA * math.log(1 + min((mg.block - blk) / 7200, DMAX) / DNORM)) if mg.block > blk else float('nan')
 
     def balance(ck):
-        return sum([float(s.stake) * float(nn[s.netuid].price) for s in st.get_stake_for_coldkey(ck)])
+        return sum([float(s.stake) * float(nn[s.netuid].price) for s in st.get_stake_for_coldkey(ck) if s.netuid])
 
     for ck in set(mg.coldkeys): ckbal[ck] = balance(ck)
     for i in range(len(mg.rank)):

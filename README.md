@@ -7,6 +7,7 @@
 ## Intro
 
 Please reference our [whitepaper](./Docs/HODL%20-%20The%20ETF%20Subnet.pdf) for a comprehensive overview.
+For frequently asked questions, please see our [FAQ document](./Docs/FAQ.md).
 
 ## Roadmap
 

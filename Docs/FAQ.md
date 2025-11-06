@@ -89,6 +89,7 @@ For miners, the process is **"zero-code."** You do not need to run any complex s
 **A:** The score is calculated based on your staked TAO amount (S) and the duration of your stake in days (D). The official formula is in the `README.md`:
 ```math
 score = S \cdot \left( 1 + 0.25 \cdot ln \left( 1 + \frac {\ D\ } {\ 30\ } \right) \right)
+```
 
 #### Q: What are the fees on the exchange?
 **A:** The protocol is funded by two fee streams:

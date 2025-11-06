@@ -14,8 +14,13 @@ For miners, the process is **"zero-code."** You do not need to run any complex s
 
 ### Section 1: The Basics & Subnet Mission
 
-#### Q: What is the purpose of Subnet 118?
-**A:** The subnet's mission is to offer financial products and services like ETFs, futures, and options to the Bittensor community. This promotes a healthier investment environment by rewarding long-term conviction, providing liquidity, reducing volatility, and helping the dTao ecosystem mature.
+#### Q: What is Subnet 118 (the HODL Subnet)?
+**A:** Subnet 118 (HODL) is a revolutionary market infrastructure for the Bittensor ecosystem. It introduces two markets that don’t exist anywhere else:
+1. A secondary market for @TrustedStake subnet index positions, allowing you to trade complete miner slots with their embedded time value.
+2. An OTC market for subnet alpha tokens, which protects subnet token prices by avoiding liquidity pools and preventing negative TAO flow.
+
+#### Q: What problem does SN118 solve in the Bittensor ecosystem?
+**A:** It directly combats short-term speculation and the “trench warfare” mentality by rewarding long-term conviction. In the new world of Flow-based emissions, HODL provides the critical infrastructure for sustainable TAO inflows by creating a structured trading environment that protects subnet token prices from the volatility of public liquidity pools.
 
 #### Q: Who is the team behind this subnet?
 **A:** The team is a collaboration between members of TrustedStake and Investing88.
@@ -39,7 +44,7 @@ For miners, the process is **"zero-code."** You do not need to run any complex s
 #### Q: Can I have multiple miners (hotkeys) on one coldkey?
 **A:** You can, but it is not recommended. The total emissions for your coldkey will be divided equally among all its registered hotkeys. Therefore, it is most efficient to have only one miner per coldkey, as confirmed by the scoring logic in `ETF/core/functions.py`.
 
-### Section 3: Staking, TrustedStake, and Funds
+### Section 3: Staking, Trading, and Time Value
 
 #### Q: What is TrustedStake? Is it safe?
 **A:** [TrustedStake](https://trustedstake.gitbook.io/trustedstake/basics/editor) is a **non-custodial** platform that allows you to delegate your TAO into diversified indexes of Bittensor subnets. The process is non-custodial, meaning neither TrustedStake nor the subnet team ever takes control of your funds. You grant them "staking proxy" permissions, which only allows them to stake and unstake on your behalf. They cannot transfer your funds.
@@ -65,9 +70,42 @@ For miners, the process is **"zero-code."** You do not need to run any complex s
 #### Q: How do I withdraw my TAO? Are there lockups?
 **A:** There are no lockups. You can withdraw at any time via the TrustedStake app. When you "withdraw," you revoke the proxy permission. Note that this does **not** automatically unstake your TAO from the underlying subnets; you may need to do that manually via `btcli st remove` or your wallet application.
 
-### Section 4: Scoring and Rewards
+#### Q: What is “Time Value” or “Duration”?
+**A:** Time = value. When you hold an incentivized TrustedStake index on SN118, you accumulate duration. This represents the future Alpha emissions your position is entitled to on the duration curve. This duration creates a tradable premium over the base value of the TAO staked in your index. The longer you hold, the more your position is worth.
+
+#### Q: How does trading a miner position work?
+**A:** Let’s say you stake 1,000 TAO in an index. After several months, your position has accumulated significant duration. On the HODL secondary market, you can sell this entire position for a premium—for example, 1,050 TAO. That extra 50 TAO is the tradable time value you earned through conviction.
+
+#### Q: Why should I pay a premium for a miner position?
+**A:** When you buy a position for a premium (e.g., 1,050 TAO for a 1,000 TAO stake), you are acquiring more than just the underlying TAO. You get:
+•A diversified, blue-chip subnet portfolio.
+•Zero slippage/MEV on the transfer.
+•The future Alpha emissions attached to that position’s accumulated duration.
+•Instant exposure without having to build a position from scratch.
+
+### Section 4: Tokenomics, Scoring, and Rewards
 
 #### Q: How is my miner score calculated?
 **A:** The score is calculated based on your staked TAO amount (S) and the duration of your stake in days (D). The official formula is in the `README.md`:
 ```math
 score = S \cdot \left( 1 + 0.25 \cdot ln \left( 1 + \frac {\ D\ } {\ 30\ } \right) \right)
+
+#### Q: What are the fees on the exchange?
+**A:** The protocol is funded by two fee streams:
+1. Transaction Fee (0.5%): Applied to all trades on both the index and OTC markets.
+2. Performance Fee (20%): Applied only to the realized premium from selling a TrustedStake index position. You keep 80% of the premium you created.
+Using the example in Section 3, on the 50 TAO premium, the protocol would collect a 10 TAO performance fee (20%), and you would keep 40 TAO as your profit.
+
+#### Q: What gives SN118 Alpha its value?
+**A:** Its value is driven by the flywheel effect of its buyback mechanism. 100% of the fees generated from trading activity are used to automatically buy back SN118 Alpha from the market. This creates constant buying pressure and reduces the circulating supply, benefiting all Alpha holders.
+
+#### Q: How does SN118 align incentives?
+**A:** By rewarding long-term holding, the protocol encourages miners to support the health of the subnets they are invested in. The OTC market protects subnet token prices from volatility, and the buyback mechanism ensures that all trading activity benefits SN118 Alpha holders. It creates a system where conviction is profitable for everyone.
+
+### Section 5: Roadmap & Vision
+
+#### Q: What are the next steps for SN118’s development?
+**A:** The immediate roadmap includes launching the V2 ETF Exchange in January 2026, which will bring full OTC market functionality online. Following that, V3 will introduce futures and options in Q3 2026, adding more sophisticated financial tooling to the ecosystem.
+
+#### Q: How does SN118 contribute to the broader dTAO economy?
+**A:** It provides the critical financial infrastructure for a mature, stable dTAO economy. By turning conviction into a tradable asset and protecting subnets from speculative volatility and outflows, HODL creates a sustainable environment where long-term investment is rewarded, benefiting the entire Bittensor network.

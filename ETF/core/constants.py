@@ -6,11 +6,20 @@ OWNER_UID = 0
 COLDKEY_BL = 'https://api.app.trustedstake.ai/admin/blacklist'
 INDEX_API = 'https://api.app.trustedstake.ai/admin/indexes'
 INDEX_IDS = [
-    '5DyGP1DhWyg4vqxBRK4WcurKhVr2sLvrk488zwpdAX1pcCXr', # TSBCSI
-    '5CiuGG5SYi4tkZRRHSBkDe85S38dEerofhBhohvFDsGCTYJh', # Top 10
-    '5E24XT6U2jvSNZe6gyZdgEGQkvNy59SY6ptDprMisrY8Dvsd', # Full Stack
+    '5DyGP1DhWyg4vqxBRK4WcurKhVr2sLvrk488zwpdAX1pcCXr',
+    '5CiuGG5SYi4tkZRRHSBkDe85S38dEerofhBhohvFDsGCTYJh',
+    '5E24XT6U2jvSNZe6gyZdgEGQkvNy59SY6ptDprMisrY8Dvsd',
+    '5DmcwEMXrSxoGp6NKraDJHXxw4E6ZwmuMrpeggCvQqS5PLEe',
+    '5DotNcrAQwCrmv6bEzyhEpgczHUsWyRc9yY4PCGM7u2G6yYE',
 ]
-INDEX_RATIO = [1/3, 1/3, 1/3]
+INDEX_LABEL = [
+    'TSBCSI',
+    'Top 10',
+    'Full Stack',
+    'Fintech',
+    'Bittensor Universe',
+]
+INDEX_RATIO = [1 / len(INDEX_IDS)] * len(INDEX_IDS)
 
 GAMMA = 1.00
 KAPPA = 0.25

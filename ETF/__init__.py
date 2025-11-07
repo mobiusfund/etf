@@ -1,4 +1,4 @@
-__version__ = "0.0.6"
+__version__ = "0.0.7"
 version_split = __version__.split(".")
 __spec_version__ = (
     (1000 * int(version_split[0]))

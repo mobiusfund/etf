@@ -55,15 +55,13 @@ pm2 start neurons/validator.py \
 
 ## Mining
 
-Please stake the miner coldkey in one of the supported [TrustedStake indexes](https://app.trustedstake.ai/strat) in order to receive emissions. Currently supported indexes are: TSBCSI, Top 10, and Full Stack.
+Please stake the miner coldkey in one of the supported [TrustedStake indexes](https://app.trustedstake.ai/strat) in order to receive emissions. Currently supported indexes are: TSBCSI, Top 10, Full Stack, Fintech, and Bittensor Universe.
 
 It's important to note that the TrustedStake app is non-custodial. The app can stake/unstake on behalf of the miner, but neither TrustedStake nor the subnet can transfer funds. The coldkey remains safe and secure under full control of the miner. Please reference the [security guide](https://trustedstake.gitbook.io/trustedstake/basics/editor) for further details.
 
-Total subnet emissions are equally divided among the supported indexes.
-
 To avoid conflicts of interest, the TrustedStake app completely ignores subnet 118. It will not include 118 in any index, nor stake/unstake any 118 alpha.
 
-Miner score is calculated using the following formula, where $$S$$ is the coldkey stake amount in Tao, and $$D$$ is the stake duration in days:
+Total subnet emissions are equally divided among the supported indexes. Miner score is calculated using the formula below, where $$S$$ is the coldkey stake amount in Tao, and $$D$$ is the stake duration in days:
 
 ```math
 \begin{aligned}

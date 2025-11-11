@@ -64,9 +64,13 @@ def score(netuid=NETUID):
     sc.loc[sc['score'].isna(), 'score'] = 0
     if not sc['score'].sum(): sc.loc[sc['uid'] == OWNER_UID, 'score'] = 1
 
+    sc[['index', 'block']] = sc[['index', 'block']].astype(object)
+    sc.loc[~sc['index'].isna(), 'index'] = sc[~sc['index'].isna()]['index'].astype(int)
+    sc.loc[~sc['block'].isna(), 'block'] = sc[~sc['block'].isna()]['block'].astype(int)
     il = str(INDEX_LABEL).replace("'", '')
     ir = str([f'{i:.2f}' for i in ir]).replace("'", '')
     it = str([f'{i:.2f}' for i in it]).replace("'", '')
+
     print(sc.sort_values(['score', 'block'], na_position='first').to_string(index=False))
     print(f'index label: {il}')
     print(f'index ratio: {ir}')

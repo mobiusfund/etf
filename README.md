@@ -61,6 +61,8 @@ It's important to note that the TrustedStake app is non-custodial. The app can s
 
 To avoid conflicts of interest, the TrustedStake app completely ignores subnet 118. It will not include 118 in any index, nor stake/unstake any 118 alpha.
 
+In addition, due to development involvement from Investing88 team members, subnet 88 has been removed from the Fintech and Bittensor Universe indexes for now, even though its inclusion long predated subnet 118. As the subnet and the TrustedStake app evolve, future inclusion or exclusion of 88 and all other subnets will be strictly based on objective criteria. No subnet will receive any special treatment.
+
 Total subnet emissions are equally divided among the supported indexes. Miner score is calculated using the formula below, where $$S$$ is the coldkey stake amount in Tao, and $$D$$ is the stake duration in days:
 
 ```math

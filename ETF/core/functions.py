@@ -21,7 +21,7 @@ def update():
     return err
 
 def score(netuid=NETUID):
-    sc = pd.DataFrame(columns=['uid', 'hotkey', 'coldkey', 'count', 'index', 'block', 'balance', 'score'])
+    sc = pd.DataFrame(columns=['uid', 'hotkey', 'coldkey', 'count', 'index', 'block', 'days', 'balance', 'score'])
     bl = requests.get(COLDKEY_BL).json()
     ckblk = [{d['address']:d['fromBlock'] for d in requests.get(f'{INDEX_API}/{i}').json()['delegators']
         if d['type'] == 'Staking' and d['address'] not in bl} for i in INDEX_IDS]
@@ -44,8 +44,8 @@ def score(netuid=NETUID):
             idx = [ck in kk for kk in ckblk].index(True)
             blk = max(ckblk[idx][ck], FIRST_BLOCK)
         except: idx, blk = [float('nan')] * 2
-        bal = ckbal[ck]
-        sc.loc[len(sc)] = i, hk, ck, 0, idx, blk, bal, scoring(bal, blk)
+        days, bal = (mg.block - blk) // 7200 if mg.block > blk else float('nan'), ckbal[ck]
+        sc.loc[len(sc)] = i, hk, ck, 0, idx, blk, days, bal, scoring(bal, blk)
 
     sc['count'] = sc.join(sc.groupby('coldkey').count()['uid'], 'coldkey', lsuffix='_')['uid']
     sc['score'] /= sc['count']
@@ -64,9 +64,9 @@ def score(netuid=NETUID):
     sc.loc[sc['score'].isna(), 'score'] = 0
     if not sc['score'].sum(): sc.loc[sc['uid'] == OWNER_UID, 'score'] = 1
 
-    sc[['index', 'block']] = sc[['index', 'block']].astype(object)
-    sc.loc[~sc['index'].isna(), 'index'] = sc[~sc['index'].isna()]['index'].astype(int)
-    sc.loc[~sc['block'].isna(), 'block'] = sc[~sc['block'].isna()]['block'].astype(int)
+    for j in 'index', 'block', 'days':
+        sc[j] = sc[j].astype(object)
+        sc.loc[~sc[j].isna(), j] = sc[~sc[j].isna()][j].astype(int)
     il = str(INDEX_LABEL).replace("'", '')
     ir = str([f'{i:.2f}' for i in ir]).replace("'", '')
     it = str([f'{i:.2f}' for i in it]).replace("'", '')

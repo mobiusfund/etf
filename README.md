@@ -72,26 +72,6 @@ Total subnet emissions are equally divided among the supported indexes. Miner sc
 \end{aligned}
 ```
 
-### CLI Tool (Alternative Method)
-
-For miners who prefer command-line tools, a CLI is available to manage delegation directly:
-
-```bash
-# List available indexes
-python miner_cli.py list
-
-# Delegate to an index (interactive mode)
-python miner_cli.py delegate
-
-# Delegate with arguments
-python miner_cli.py delegate --index 0 --wallet.name <coldkey> --wallet.hotkey <hotkey>
-
-# Undelegate from an index
-python miner_cli.py undelegate --index 0 --wallet.name <coldkey> --wallet.hotkey <hotkey>
-```
-
-The CLI tool uses Substrate proxy calls to add/remove the index as a delegate. It requires the same setup as validators (see Installation section above).
-
 ## License
 This repository is licensed under the MIT License.
 ```text

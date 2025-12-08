@@ -323,28 +323,6 @@ python contrib/miner_cli/miner_cli.py undelegate --index 0 --wallet.name default
 - This is **not a fee** - it's automatically refunded when you undelegate
 - The reserve is required by the Bittensor blockchain protocol
 
-## Troubleshooting
-
-### "Invalid index" Error
-**Problem:** Index number is out of range
-
-**Solution:** Use an index between 0 and 4. Run `python contrib/miner_cli/miner_cli.py list` to see available indexes.
-
----
-
-### "Failed to delegate" Error
-**Possible Causes:**
-- Insufficient TAO balance (need 2+ TAO + gas fees)
-- Incorrect wallet name or hotkey
-- Wrong network selected
-- Wallet not found
-
-**Solutions:**
-- Check your TAO balance
-- Verify wallet name and hotkey are correct
-- Ensure you're using the correct network (default: finney)
-- Confirm wallet exists in `~/.bittensor/wallets/`
-
 ---
 
 ### "Proxy registration not found" Error (on undelegate)
@@ -400,68 +378,12 @@ You can view:
 - Rewards earned
 - Portfolio composition
 
-## Scoring Formula
-
-Your miner score is calculated as:
-
-```
-score = S × (1 + 0.25 × ln(1 + D/30))
-```
-
-Where:
-- **S** = Stake amount in TAO
-- **D** = Duration in days
-
-**Example Scores:**
-- 1000 TAO, 0 days: **1000.00**
-- 1000 TAO, 30 days: **1173.29** (+17.3%)
-- 1000 TAO, 90 days: **1318.59** (+31.9%)
-- 1000 TAO, 365 days: **1644.52** (+64.5%)
-
-**Key Insight:** The longer you hold, the more your position is worth!
-
-## Best Practices
-
-1. ✅ **Use the same coldkey** for miner registration and delegation
-2. ✅ **Keep your wallet secure** - never share your password or seed phrase
-3. ✅ **Monitor your position** regularly on TrustedStake app
-4. ✅ **Understand the scoring** - time = value
-5. ✅ **Test on testnet first** if you're unsure (use `--network test`)
-
-## FAQ
-
-### Q: Do I need to run any mining software?
-**A:** No! This is a zero-code subnet. Just delegate and earn based on stake × duration.
-
-### Q: Can I delegate to multiple indexes?
-**A:** You can only delegate to one index per coldkey at a time.
-
-### Q: How long does it take to start earning?
-**A:** Your position shows "Pending" for up to 1 hour while the rebalancer runs. After that, you start earning immediately.
-
-### Q: Can I add more TAO later?
-**A:** Yes! Simply send more TAO to your delegated wallet. It will be automatically added to your position without resetting your duration.
-
-### Q: Is there a lockup period?
-**A:** No! You can undelegate at any time with no penalties.
-
-### Q: What happens to my accumulated duration if I undelegate?
-**A:** Your duration is preserved if you redelegate to the same or different index.
-
 ## Support & Resources
 
 - **Subnet FAQ**: [/Docs/FAQ.md](../../Docs/FAQ.md)
 - **TrustedStake Docs**: https://trustedstake.gitbook.io/trustedstake/
 - **TrustedStake App**: https://app.trustedstake.ai/strat
 - **Bittensor Docs**: https://docs.learnbittensor.org/
-
-## Contributing
-
-This CLI tool is part of the HODL ETF Subnet. Contributions, bug reports, and feature requests are welcome!
-
-## License
-
-MIT License - See main repository LICENSE file for details.
 
 ---
 

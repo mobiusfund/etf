@@ -378,12 +378,42 @@ You can view:
 - Rewards earned
 - Portfolio composition
 
+## Testing
+
+The CLI tool includes a comprehensive test suite.
+
+### Run Tests
+
+```bash
+# Install test dependencies
+pip install -r requirements-test.txt
+
+# Run all tests
+pytest test_miner_cli.py -v
+
+# Run with coverage
+pytest test_miner_cli.py --cov=miner_cli --cov-report=html
+```
+
+### Test Coverage
+
+- ✅ Proxy functions (add/remove)
+- ✅ Index listing
+- ✅ Delegation operations
+- ✅ User input prompting
+- ✅ Error handling
+- ✅ Network selection
+
 ## Support & Resources
 
 - **Subnet FAQ**: [/Docs/FAQ.md](../../Docs/FAQ.md)
 - **TrustedStake Docs**: https://trustedstake.gitbook.io/trustedstake/
 - **TrustedStake App**: https://app.trustedstake.ai/strat
 - **Bittensor Docs**: https://docs.learnbittensor.org/
+
+## Contributing
+
+Contributions are welcome! Please ensure all tests pass before submitting a pull request.
 
 ---
 

@@ -19,7 +19,7 @@ Transaction fees generated from V2/V3 will have a major percentage committed to 
 
 ## Installation
 
-This subnet is zero code for miners. Please follow the [Bittensor document](https://docs.learnbittensor.org/miners/) to register a hotkey. Advanced miners can follow the simple setup below and run command `ETF/bin/validator` to check live scores.
+This subnet is zero code for miners. Please follow the [Bittensor document](https://docs.learnbittensor.org/miners/) to register a hotkey. Advanced miners can follow the simple setup below and run command `ETF/bin/validator` to check live scores. Also check out the convenient [dashboard](https://subnet-118-dashboard.vercel.app/) developed by [Taoli](https://x.com/taoleeh).
 
 Please avoid using the root account, and make sure Python3 is available as command `python` under a regular user account. Ubuntu 22.04 is the only officially supported OS, although many other OSes can also work with minimum tweaks, including macOS.
 
@@ -56,6 +56,8 @@ pm2 start neurons/validator.py \
 ## Mining
 
 Please stake the miner coldkey in one of the supported [TrustedStake indexes](https://app.trustedstake.ai/strat) in order to receive emissions. Currently supported indexes are: TSBCSI, Top 10, Full Stack, Fintech, and Bittensor Universe.
+
+Besides the web-based app, a command-line app can be found under [contrib/miner_cli/](https://github.com/mobiusfund/etf/tree/main/contrib/miner_cli), developed by [codomposer](https://github.com/codomposer).
 
 It's important to note that the TrustedStake app is non-custodial. The app can stake/unstake on behalf of the miner, but neither TrustedStake nor the subnet can transfer funds. The coldkey remains safe and secure under full control of the miner. Please reference the [security guide](https://trustedstake.gitbook.io/trustedstake/basics/editor) for further details.
 

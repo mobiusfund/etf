@@ -57,7 +57,7 @@ pm2 start neurons/validator.py \
 
 Please stake the miner coldkey in one of the supported [TrustedStake indexes](https://app.trustedstake.ai/strat) in order to receive emissions. Currently supported indexes are: TSBCSI, Top 10, Full Stack, Fintech, and Bittensor Universe.
 
-Besides the web-based app, a command-line app can be found under [contrib/miner_cli/](https://github.com/mobiusfund/etf/tree/main/contrib/miner_cli), developed by [codomposer](https://github.com/codomposer).
+Besides the web-based app, a command-line app can be found under [contrib/miner_cli/](https://github.com/mobiusfund/etf/tree/main/contrib/miner_cli), developed by [Gritty_dev](https://github.com/codomposer).
 
 It's important to note that the TrustedStake app is non-custodial. The app can stake/unstake on behalf of the miner, but neither TrustedStake nor the subnet can transfer funds. The coldkey remains safe and secure under full control of the miner. Please reference the [security guide](https://trustedstake.gitbook.io/trustedstake/basics/editor) for further details.
 

@@ -251,8 +251,8 @@ class TestDelegateToIndex:
             
             mock_wallet = Mock()
             mock_wallet.coldkeypub.ss58_address = "5C..."
-            bt.wallet = Mock(return_value=mock_wallet)
-            bt.subtensor = Mock(return_value=Mock())
+            bt.Wallet = Mock(return_value=mock_wallet)
+            bt.Subtensor = Mock(return_value=Mock())
             
             # User says 'n' to confirmation
             mock_input.return_value = 'n'
@@ -280,8 +280,8 @@ class TestDelegateToIndex:
             
             mock_wallet = Mock()
             mock_wallet.coldkeypub.ss58_address = "5C..."
-            bt.wallet = Mock(return_value=mock_wallet)
-            bt.subtensor = Mock(return_value=Mock())
+            bt.Wallet = Mock(return_value=mock_wallet)
+            bt.Subtensor = Mock(return_value=Mock())
             
             # Mock successful response
             mock_response = Mock()
@@ -313,8 +313,8 @@ class TestDelegateToIndex:
             
             mock_wallet = Mock()
             mock_wallet.coldkeypub.ss58_address = "5C..."
-            bt.wallet = Mock(return_value=mock_wallet)
-            bt.subtensor = Mock(return_value=Mock())
+            bt.Wallet = Mock(return_value=mock_wallet)
+            bt.Subtensor = Mock(return_value=Mock())
             
             # Mock failed response
             mock_response = Mock()
@@ -369,8 +369,8 @@ class TestUndelegateFromIndex:
             
             mock_wallet = Mock()
             mock_wallet.coldkeypub.ss58_address = "5C..."
-            bt.wallet = Mock(return_value=mock_wallet)
-            bt.subtensor = Mock(return_value=Mock())
+            bt.Wallet = Mock(return_value=mock_wallet)
+            bt.Subtensor = Mock(return_value=Mock())
             
             # Mock successful response
             mock_response = Mock()
@@ -404,8 +404,8 @@ class TestUndelegateFromIndex:
             
             mock_wallet = Mock()
             mock_wallet.coldkeypub.ss58_address = "5C..."
-            bt.wallet = Mock(return_value=mock_wallet)
-            bt.subtensor = Mock(return_value=Mock())
+            bt.Wallet = Mock(return_value=mock_wallet)
+            bt.Subtensor = Mock(return_value=Mock())
             
             # User says 'n' to confirmation
             mock_input.return_value = 'n'
@@ -466,7 +466,7 @@ class TestErrorHandling:
             import bittensor as bt
             
             # Mock to raise exception
-            bt.wallet = Mock(side_effect=Exception("Wallet not found"))
+            bt.Wallet = Mock(side_effect=Exception("Wallet not found"))
             
             args = Namespace(
                 index=0,
@@ -489,7 +489,7 @@ class TestErrorHandling:
             import bittensor as bt
             
             # Mock to raise exception
-            bt.wallet = Mock(side_effect=Exception("Network error"))
+            bt.Wallet = Mock(side_effect=Exception("Network error"))
             
             args = Namespace(
                 index=0,
@@ -518,10 +518,10 @@ class TestNetworkSelection:
             
             mock_wallet = Mock()
             mock_wallet.coldkeypub.ss58_address = "5C..."
-            bt.wallet = Mock(return_value=mock_wallet)
+            bt.Wallet = Mock(return_value=mock_wallet)
             
             mock_subtensor = Mock()
-            bt.subtensor = Mock(return_value=mock_subtensor)
+            bt.Subtensor = Mock(return_value=mock_subtensor)
             
             mock_response = Mock()
             mock_response.is_success = True
@@ -539,7 +539,7 @@ class TestNetworkSelection:
             result = delegate_to_index(args)
             
             # Verify subtensor was called with correct network
-            bt.subtensor.assert_called_once_with(network="test")
+            bt.Subtensor.assert_called_once_with(network="test")
 
     @patch('miner_cli.add_proxy')
     @patch('builtins.input')
@@ -550,10 +550,10 @@ class TestNetworkSelection:
             
             mock_wallet = Mock()
             mock_wallet.coldkeypub.ss58_address = "5C..."
-            bt.wallet = Mock(return_value=mock_wallet)
+            bt.Wallet = Mock(return_value=mock_wallet)
             
             mock_subtensor = Mock()
-            bt.subtensor = Mock(return_value=mock_subtensor)
+            bt.Subtensor = Mock(return_value=mock_subtensor)
             
             mock_response = Mock()
             mock_response.is_success = True
@@ -571,7 +571,7 @@ class TestNetworkSelection:
             result = delegate_to_index(args)
             
             # Verify subtensor was called with correct network
-            bt.subtensor.assert_called_once_with(network="local")
+            bt.Subtensor.assert_called_once_with(network="local")
 
 
 if __name__ == "__main__":

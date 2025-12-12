@@ -63,8 +63,8 @@ def delegate_to_index(args):
         print(f"Address: {index_address}")
 
         # Initialize wallet and subtensor
-        wallet = bt.wallet(name=args.wallet_name, hotkey=args.wallet_hotkey)
-        subtensor = bt.subtensor(network=args.network)
+        wallet = bt.Wallet(name=args.wallet_name, hotkey=args.wallet_hotkey)
+        subtensor = bt.Subtensor(network=args.network)
 
         print(f"\n📝 Wallet: {args.wallet_name}")
         print(f"Coldkey: {wallet.coldkeypub.ss58_address}")
@@ -118,8 +118,8 @@ def undelegate_from_index(args):
         print(f"Address: {index_address}")
 
         # Initialize wallet and subtensor
-        wallet = bt.wallet(name=args.wallet_name, hotkey=args.wallet_hotkey)
-        subtensor = bt.subtensor(network=args.network)
+        wallet = bt.Wallet(name=args.wallet_name, hotkey=args.wallet_hotkey)
+        subtensor = bt.Subtensor(network=args.network)
 
         print(f"\n📝 Wallet: {args.wallet_name}")
         print(f"Coldkey: {wallet.coldkeypub.ss58_address}")

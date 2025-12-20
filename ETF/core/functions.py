@@ -35,10 +35,10 @@ def score(netuid=NETUID):
         return bal ** GAMMA * (1 + KAPPA * math.log(1 + min((mg.block - blk) / 7200, DMAX) / DNORM)) if mg.block > blk else float('nan')
 
     def balance(ck):
-        return sum([float(s.stake) * float(nn[s.netuid].price) for s in st.get_stake_for_coldkey(ck) if s.netuid])
+        return sum([float(s.stake) * float(nn[s.netuid].price) for s in st.get_stake_info_for_coldkey(ck) if s.netuid])
 
     for ck in set(mg.coldkeys): ckbal[ck] = balance(ck)
-    for i in range(len(mg.rank)):
+    for i in range(mg.num_uids):
         hk, ck = mg.hotkeys[i], mg.coldkeys[i]
         try:
             idx = [ck in kk for kk in ckblk].index(True)

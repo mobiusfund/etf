@@ -53,13 +53,15 @@ For miners, the process is **"zero-code."** You do not need to run any complex s
 **A:** A minimum balance equivalent to 2 TAO is required to delegate. This can be free TAO, root TAO, or staked alpha on other subnets.
 
 #### Q: Which indexes are supported for mining rewards?
-**A:** You must stake your coldkey in one of the three supported indexes to receive emissions. According to `ETF/core/constants.py`, these are:
+**A:** You must stake your coldkey in one of the five supported indexes to receive emissions. According to `ETF/core/constants.py`, these are:
 *   **Index 0:** TSBCSI
 *   **Index 1:** Top 10
 *   **Index 2:** Full Stack
+*   **Index 3:** FinTech
+*   **Index 4:** Bittensor Universe
 
 #### Q: I delegated my TAO. Why does the status say "Pending"?
-**A:** "Pending" means you are waiting for the hourly rebalancer to trigger. This process will invest your TAO into the constituent subnets of the index you chose. It can take up to an hour, but occasionally longer if the market metrics dont allow for it or the backend is under maintenance.
+**A:** "Pending" means you are waiting for the rebalancer which triggers every four hours. This process will invest your TAO into the constituent subnets of the index you chose. It can take up to an hour, but occasionally longer if the market metrics dont allow for it or the backend is under maintenance.
 
 #### Q: Why was ~0.1 TAO locked from my wallet when I delegated?
 **A:** This is a temporary ["proxy reserve lock"](https://wiki.polkadot.com/learn/learn-proxies/) required by the Bittensor blockchain protocol when you authorize a staking proxy. It is not a fee. This amount is automatically refunded to you when you withdraw and remove the proxy.

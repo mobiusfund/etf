@@ -4,6 +4,7 @@ import os, math, requests
 import bittensor as bt
 import pandas as pd
 from .constants import *
+st = bt.Subtensor('finney')
 
 def update():
     init = 'ETF/__init__.py'
@@ -27,7 +28,11 @@ def score(netuid=NETUID):
         if d['type'] == 'Staking' and d['address'] not in bl} for i in INDEX_IDS]
     ckbal = {}
 
-    st = bt.Subtensor('finney')
+    global st
+    bk = 0
+    while not bk:
+        try: bk = st.block
+        except: st, bk = bt.Subtensor('finney'), 0
     mg = st.get_metagraph_info(netuid)
     nn = st.all_subnets()
 

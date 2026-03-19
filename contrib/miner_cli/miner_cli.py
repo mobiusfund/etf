@@ -272,19 +272,23 @@ def enable_real_pays_fee_command(args):
 
         selected, status = select_delegate(staking_proxies)
 
-        if status == "MULTIPLE_KNOWN":
-            print("\n❌ Multiple known TrustedStake staking delegates found:")
-            for d in selected:
-                print(f"   - {d}")
-            return False
+        if status in ("MULTIPLE_KNOWN", "MULTIPLE_UNKNOWN"):
+            print("\nMultiple Staking proxies detected. Please choose one:")
+            for i, d in enumerate(selected, 1):
+                known = "TrustedStake" if d in TRUSTEDSTAKE_DELEGATES else "unknown"
+                print(f"  {i}. {d} [{known}]")
+            while True:
+                try:
+                    choice = int(input(f"\nEnter number (1-{len(selected)}): ").strip())
+                    if 1 <= choice <= len(selected):
+                        delegate_ss58 = selected[choice - 1]
+                        break
+                    print(f"❌ Must be between 1 and {len(selected)}")
+                except ValueError:
+                    print("❌ Please enter a valid number")
+        else:
+            delegate_ss58 = selected
 
-        if status == "MULTIPLE_UNKNOWN":
-            print("\n❌ Multiple Staking proxies and none match TrustedStake allowlist:")
-            for d in selected:
-                print(f"   - {d}")
-            return False
-
-        delegate_ss58 = selected
         print(f"\nSelected delegate: {delegate_ss58}")
 
         if status == "SINGLE_UNKNOWN":

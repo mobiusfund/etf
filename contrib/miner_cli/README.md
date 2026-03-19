@@ -137,10 +137,9 @@ python contrib/miner_cli/miner_cli.py enable-real-pays-fee --wallet.name default
 ```
 
 The command auto-selects your delegate using the TrustedStake allowlist:
-- Exactly one known TrustedStake Staking proxy found -> uses it
-- Multiple known TrustedStake Staking proxies -> fails (ambiguous)
+- Exactly one known TrustedStake Staking proxy found -> uses it automatically
+- Multiple Staking proxies found -> prompts you to choose from the list
 - One unknown Staking proxy -> uses it with a warning
-- Multiple unknown Staking proxies -> fails (ambiguous)
 
 ## Command Reference
 

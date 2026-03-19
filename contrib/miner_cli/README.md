@@ -8,14 +8,14 @@ This CLI tool provides miners with a simple, interactive way to delegate and und
 
 ## Features
 
-- ✅ **Interactive Mode**: Prompts for missing arguments, perfect for beginners
-- ✅ **List Indexes**: View all available TrustedStake indexes
-- ✅ **Delegate**: Add an index as a proxy delegate to start mining
-- ✅ **Undelegate**: Remove a proxy delegate to stop mining
-- ✅ **Flexible Usage**: Supports both interactive and argument-based modes
-- ✅ **Network Selection**: Works with finney, test, and local networks
-- ✅ **Safe**: Confirmation prompts for all operations
-- ✅ **Non-Custodial**: Uses Substrate proxy mechanism
+- **List Indexes**: View all available TrustedStake indexes
+- **Delegate**: Add an index as a proxy delegate to start mining (auto-enables RealPaysFee)
+- **Undelegate**: Remove a proxy delegate to stop mining
+- **Status**: Read-only check of proxy and RealPaysFee status (no signing, no wallet unlock)
+- **Enable RealPaysFee**: Standalone command to opt-in to RealPaysFee for existing proxies
+- **Interactive Mode**: Prompts for missing arguments
+- **Network Selection**: Works with finney (mainnet), test, and local networks
+- **Version Safety**: Hard-fails on known vulnerable bittensor package versions
 
 ## Prerequisites
 
@@ -28,272 +28,185 @@ btcli subnet register --wallet.name <your_coldkey> --wallet.hotkey <your_hotkey>
 ```bash
 cd /path/to/etf
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate
 pip install -e .
+pip install substrate-interface bittensor-wallet
 ```
 
 ### 3. Requirements
-- Python 3.8+
+- Python 3.12+ recommended (3.13 also works)
 - Bittensor 9.11+
 - Minimum 2 TAO balance
 - Registered miner on Subnet 118
 
-## Installation
+## Security Note
 
-The CLI is located in `contrib/miner_cli/miner_cli.py`. No additional installation is needed beyond the subnet dependencies.
+The CLI will hard-fail if it detects known vulnerable packages:
+
+* `bittensor-wallet==4.0.2`
+* `bittensor-cli==9.18.2`
+
+Recommended remediation:
+
+```bash
+pip uninstall -y bittensor-cli bittensor-wallet
+pip cache purge
+pip install --force-reinstall "bittensor-wallet==4.0.1"
+pip install --force-reinstall "bittensor-cli==9.18.1"
+```
 
 ## Usage
 
 ### List Available Indexes
 
-View all supported TrustedStake indexes:
-
 ```bash
 python contrib/miner_cli/miner_cli.py list
-```
-
-**Output:**
-```
-============================================================
-Available TrustedStake Indexes
-============================================================
-
-Index 0: TSBCSI
-Address: 5DyGP1DhWyg4vqxBRK4WcurKhVr2sLvrk488zwpdAX1pcCXr
-
-Index 1: Top 10
-Address: 5CiuGG5SYi4tkZRRHSBkDe85S38dEerofhBhohvFDsGCTYJh
-
-Index 2: Full Stack
-Address: 5E24XT6U2jvSNZe6gyZdgEGQkvNy59SY6ptDprMisrY8Dvsd
-
-Index 3: Fintech
-Address: 5DmcwEMXrSxoGp6NKraDJHXxw4E6ZwmuMrpeggCvQqS5PLEe
-
-Index 4: Bittensor Universe
-Address: 5DotNcrAQwCrmv6bEzyhEpgczHUsWyRc9yY4PCGM7u2G6yYE
-
-============================================================
 ```
 
 ### Delegate to an Index
 
-#### Interactive Mode (Recommended for Beginners)
+Adds the index as a proxy delegate **and automatically enables RealPaysFee**.
 
-Simply run the command and follow the prompts:
-
-```bash
-python contrib/miner_cli/miner_cli.py delegate
-```
-
-**Interactive Flow:**
-1. Displays available indexes
-2. Prompts for index number (0-4)
-3. Prompts for wallet name (coldkey)
-4. Prompts for wallet hotkey
-5. Shows delegation details
-6. Asks for confirmation
-7. Executes the delegation
-
-**Example Session:**
-```
-============================================================
-Available TrustedStake Indexes
-============================================================
-[... indexes listed ...]
-
-Enter index number (0-4): 0
-
-Enter wallet name (coldkey): my-coldkey
-Enter wallet hotkey: my-hotkey
-
-🔄 Delegating to Index 0: TSBCSI
-Address: 5DyGP1DhWyg4vqxBRK4WcurKhVr2sLvrk488zwpdAX1pcCXr
-
-📝 Wallet: my-coldkey
-Coldkey: 5C...
-
-⚠️  This will add TSBCSI as a proxy delegate. Continue? (y/N): y
-
-⏳ Adding proxy delegate...
-Proxy type: Staking
-Enter your password: 
-Decrypting...
-
-✅ Successfully delegated to TSBCSI!
-Block hash: 0x...
-
-💡 Note: ~0.1 TAO has been locked as a proxy reserve.
-This will be refunded when you undelegate.
-```
-
-#### With Command-Line Arguments
-
-For scripting or automation:
-
-```bash
-python contrib/miner_cli/miner_cli.py delegate \
-    --index 0 \
-    --wallet.name my-coldkey \
-    --wallet.hotkey my-hotkey
-```
-
-#### Skip Confirmation Prompt
-
-Add `--yes` or `-y` to skip the confirmation:
-
-```bash
-python contrib/miner_cli/miner_cli.py delegate \
-    --index 0 \
-    --wallet.name my-coldkey \
-    --wallet.hotkey my-hotkey \
-    --yes
-```
-
-#### Use Different Network
-
-Default is `finney`. To use testnet or local:
-
-```bash
-python contrib/miner_cli/miner_cli.py delegate \
-    --index 0 \
-    --wallet.name my-coldkey \
-    --wallet.hotkey my-hotkey \
-    --network test
-```
-
-### Undelegate from an Index
-
-#### Interactive Mode
-
-```bash
-python contrib/miner_cli/miner_cli.py undelegate
-```
-
-#### With Arguments
-
-```bash
-python contrib/miner_cli/miner_cli.py undelegate \
-    --index 0 \
-    --wallet.name my-coldkey \
-    --wallet.hotkey my-hotkey
-```
-
-**Example Output:**
-```
-🔄 Undelegating from Index 0: TSBCSI
-Address: 5DyGP1DhWyg4vqxBRK4WcurKhVr2sLvrk488zwpdAX1pcCXr
-
-📝 Wallet: my-coldkey
-Coldkey: 5C...
-
-⚠️  This will remove TSBCSI as a proxy delegate. Continue? (y/N): y
-
-⏳ Removing proxy delegate...
-Proxy type: Staking
-Enter your password: 
-Decrypting...
-
-✅ Successfully undelegated from TSBCSI!
-Block hash: 0x...
-
-💡 Note: The ~0.1 TAO proxy reserve has been refunded.
-⚠️  You may need to manually unstake your TAO from the underlying subnets.
-```
-
-## Command Reference
-
-### Global Options
-
-```
--h, --help    Show help message and exit
-```
-
-### Commands
-
-#### `list`
-
-Lists all available TrustedStake indexes with their addresses.
-
-**Syntax:**
-```bash
-python contrib/miner_cli/miner_cli.py list
-```
-
-**Arguments:** None
-
----
-
-#### `delegate`
-
-Adds an index as a proxy delegate to start earning rewards.
-
-**Syntax:**
-```bash
-python contrib/miner_cli/miner_cli.py delegate [OPTIONS]
-```
-
-**Options:**
-- `--index INDEX` - Index number to delegate to (0-4). Optional in interactive mode.
-- `--wallet.name NAME` - Wallet name (coldkey). Optional in interactive mode.
-- `--wallet.hotkey HOTKEY` - Wallet hotkey. Optional in interactive mode.
-- `--network {finney,test,local}` - Bittensor network (default: finney)
-- `--yes`, `-y` - Skip confirmation prompt
-
-**Examples:**
 ```bash
 # Interactive mode
 python contrib/miner_cli/miner_cli.py delegate
 
-# With all arguments
+# With arguments (mainnet, default)
 python contrib/miner_cli/miner_cli.py delegate --index 0 --wallet.name default --wallet.hotkey default
+
+# Testnet
+python contrib/miner_cli/miner_cli.py delegate --index 0 --wallet.name default --wallet.hotkey default --network test
 
 # Skip confirmation
 python contrib/miner_cli/miner_cli.py delegate --index 0 --wallet.name default --wallet.hotkey default --yes
-
-# Use testnet
-python contrib/miner_cli/miner_cli.py delegate --index 0 --wallet.name default --wallet.hotkey default --network test
 ```
 
----
+When delegation succeeds, the CLI automatically submits `Proxy.set_real_pays_fee(delegate, true)` so your wallet pays standard network fees for proxy-managed actions. If the auto-enable fails for any reason, the delegation itself still succeeds and you can enable later with the `enable-real-pays-fee` command.
 
-#### `undelegate`
+### Undelegate from an Index
 
-Removes an index as a proxy delegate to stop staking.
-
-**Syntax:**
-```bash
-python contrib/miner_cli/miner_cli.py undelegate [OPTIONS]
-```
-
-**Options:** Same as `delegate` command
-
-**Examples:**
 ```bash
 # Interactive mode
 python contrib/miner_cli/miner_cli.py undelegate
 
-# With all arguments
+# With arguments
 python contrib/miner_cli/miner_cli.py undelegate --index 0 --wallet.name default --wallet.hotkey default
 
-# Skip confirmation
-python contrib/miner_cli/miner_cli.py undelegate --index 0 --wallet.name default --wallet.hotkey default --yes
+# Testnet
+python contrib/miner_cli/miner_cli.py undelegate --index 0 --wallet.name default --wallet.hotkey default --network test
 ```
+
+### Check Proxy & RealPaysFee Status (Read-Only)
+
+Zero signing, zero password prompt, safe to run anytime. Reads only `Proxy.Proxies` and `Proxy.RealPaysFee` from chain.
+
+```bash
+# Mainnet (default)
+python contrib/miner_cli/miner_cli.py status --wallet.name default --wallet.hotkey default
+
+# Testnet
+python contrib/miner_cli/miner_cli.py status --wallet.name default --wallet.hotkey default --network test
+```
+
+**Example output:**
+```
+Wallet : default
+Coldkey: 5DPM...
+Network: finney
+
+Staking proxies (1):
+----------------------------------------------------------------------
+  5HgG... [TrustedStake] RealPaysFee -> ENABLED
+
+Done.
+```
+
+### Enable RealPaysFee (Existing Proxies)
+
+For users who already have a proxy but haven't opted into RealPaysFee yet:
+
+```bash
+# Mainnet (default)
+python contrib/miner_cli/miner_cli.py enable-real-pays-fee --wallet.name default --wallet.hotkey default
+
+# Testnet
+python contrib/miner_cli/miner_cli.py enable-real-pays-fee --wallet.name default --wallet.hotkey default --network test
+
+# Skip confirmation
+python contrib/miner_cli/miner_cli.py enable-real-pays-fee --wallet.name default --wallet.hotkey default --yes
+```
+
+The command auto-selects your delegate using the TrustedStake allowlist:
+- Exactly one known TrustedStake Staking proxy found -> uses it automatically
+- Multiple Staking proxies found -> prompts you to choose from the list
+- One unknown Staking proxy -> uses it with a warning
+
+## Command Reference
+
+| Command | Description | Signing Required |
+|---------|-------------|-----------------|
+| `list` | List available indexes | No |
+| `delegate` | Add proxy + auto-enable RealPaysFee | Yes |
+| `undelegate` | Remove proxy | Yes |
+| `status` | Check proxy & RealPaysFee status | No |
+| `enable-real-pays-fee` | Enable RealPaysFee for existing proxy | Yes |
+
+### Common Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--wallet.name` | Wallet name (coldkey) | Interactive prompt |
+| `--wallet.hotkey` | Wallet hotkey | Interactive prompt |
+| `--network` | `finney`, `test`, or `local` | `finney` |
+| `--yes`, `-y` | Skip confirmation prompt | Off |
+| `--index` | Index number 0-4 (delegate/undelegate only) | Interactive prompt |
+
+## What is RealPaysFee?
+
+`RealPaysFee` is a new opt-in flag on Subtensor's Proxy pallet. When enabled, the **real** (proxied) account pays the standard network transaction fees for actions performed through the proxy, rather than the delegate paying them.
+
+### What it does
+- Your wallet pays normal network fees for TrustedStake proxy-managed actions
+- One-time on-chain transaction: `Proxy.set_real_pays_fee(delegate, true)`
+- If the proxy is removed, the RealPaysFee setting for that pair is automatically cleared
+
+### What it does NOT do
+- Does not recreate your proxy
+- Does not change custody
+- Does not require your mnemonic
 
 ## What Happens When You Delegate
 
-1. ✅ **Adds Proxy**: The index is added as a "Staking" proxy delegate
-2. 💰 **Reserve Lock**: ~0.1 TAO is locked as a proxy reserve (automatically refunded on undelegate)
-3. ⏳ **Pending Status**: Your position shows "Pending" until the hourly rebalancer runs
-4. 📈 **Start Earning**: You begin earning rewards based on: `score = S × (1 + 0.25 × ln(1 + D/30))`
-   - S = Stake amount in TAO
-   - D = Duration in days
+1. **Adds Proxy**: The index is added as a "Staking" proxy delegate
+2. **Reserve Lock**: ~0.1 TAO is locked as a proxy reserve (refunded on undelegate)
+3. **RealPaysFee**: Automatically enabled for the new proxy
+4. **Pending Status**: Your position shows "Pending" until the hourly rebalancer runs
+5. **Start Earning**: Rewards based on: `score = S * (1 + 0.25 * ln(1 + D/30))`
 
 ## What Happens When You Undelegate
 
-1. ✅ **Removes Proxy**: The proxy delegate is removed
-2. 💰 **Reserve Refund**: The ~0.1 TAO proxy reserve is automatically refunded
-3. ⚠️ **Manual Unstaking**: You may need to manually unstake your TAO from underlying subnets using `btcli st remove`
+1. **Removes Proxy**: The proxy delegate is removed
+2. **Reserve Refund**: The ~0.1 TAO proxy reserve is automatically refunded
+3. **RealPaysFee Cleared**: Automatically cleared when proxy is removed
+4. **Manual Unstaking**: You may need to manually unstake via `btcli st remove`
+
+## Testnet Workflow
+
+To test the full delegate + RealPaysFee flow on testnet:
+
+```bash
+# 1. Delegate on testnet
+python contrib/miner_cli/miner_cli.py delegate \
+    --index 0 --wallet.name test-wallet --wallet.hotkey default --network test --yes
+
+# 2. Check status on testnet
+python contrib/miner_cli/miner_cli.py status \
+    --wallet.name test-wallet --wallet.hotkey default --network test
+
+# 3. Undelegate on testnet
+python contrib/miner_cli/miner_cli.py undelegate \
+    --index 0 --wallet.name test-wallet --wallet.hotkey default --network test --yes
+```
 
 ## Supported Indexes
 
@@ -305,104 +218,32 @@ python contrib/miner_cli/miner_cli.py undelegate --index 0 --wallet.name default
 | 3 | Fintech | Financial subnets |
 | 4 | Bittensor Universe | Comprehensive coverage |
 
-## Security & Safety
-
-### Non-Custodial Design
-- ✅ You maintain full control of your funds
-- ✅ The index can only stake/unstake on your behalf
-- ✅ The index **cannot transfer** your funds
-- ✅ Your coldkey remains secure under your control
-
-### Confirmation Prompts
-- All operations require confirmation (unless `--yes` is used)
-- Clear display of what will happen before execution
-- Shows wallet addresses and index details
-
-### Proxy Reserve
-- ~0.1 TAO is locked when you delegate (Substrate requirement)
-- This is **not a fee** - it's automatically refunded when you undelegate
-- The reserve is required by the Bittensor blockchain protocol
-
----
-
-### "Proxy registration not found" Error (on undelegate)
-**Problem:** No proxy delegation exists for this index
-
-**Solution:** You may have already undelegated, or the proxy type doesn't match. The CLI uses "Staking" proxy type.
-
----
-
-### Position Shows "Pending"
-**This is normal!**
-
-The TrustedStake rebalancer runs hourly to invest your TAO into constituent subnets. Wait up to 1 hour for your position to become active.
-
----
-
-### Proxy Reserve Not Refunded
-**This is automatic!**
-
-The proxy reserve is automatically refunded when you remove the proxy. If you don't see it immediately, wait a few blocks for the transaction to finalize.
-
-## Technical Details
-
-### Proxy Type
-The CLI uses `"Staking"` proxy type for both add and remove operations. This is the correct proxy type for TrustedStake delegations.
-
-### Substrate Calls
-- **Add Proxy**: `Proxy.add_proxy(delegate, proxy_type="Staking", delay=0)`
-- **Remove Proxy**: `Proxy.remove_proxy(delegate, proxy_type="Staking", delay=0)`
-
-### Index Configuration
-Index IDs and labels are imported from `ETF/core/constants.py`:
-```python
-from ETF.core.constants import INDEX_IDS, INDEX_LABEL
-```
-
-This ensures consistency with the rest of the subnet codebase.
-
-### Error Handling
-- Validates index range (0-4)
-- Checks for empty wallet inputs
-- Displays detailed error messages from blockchain
-- Includes full traceback for debugging
-
-## Monitoring Your Position
-
-After delegating, monitor your position at:
-- **TrustedStake App**: https://app.trustedstake.ai/strat
-
-You can view:
-- Staked positions
-- Accumulated duration
-- Rewards earned
-- Portfolio composition
-
 ## Testing
-
-The CLI tool includes a comprehensive test suite.
-
-### Run Tests
 
 ```bash
 # Install test dependencies
-pip install -r requirements-test.txt
+pip install -r contrib/miner_cli/requirements-test.txt
 
 # Run all tests
-pytest test_miner_cli.py -v
+cd contrib/miner_cli
+pytest test_miner_cli.py test_proxy_utils.py -v
 
 # Run with coverage
-pytest test_miner_cli.py --cov=miner_cli --cov-report=html
+pytest test_miner_cli.py test_proxy_utils.py --cov=. --cov-report=html
 ```
 
-### Test Coverage
+## File Structure
 
-- ✅ Proxy functions (add/remove)
-- ✅ Index listing
-- ✅ Delegation operations
-- ✅ User input prompting
-- ✅ Error handling
-- ✅ Network selection
+```
+contrib/miner_cli/
+├── miner_cli.py          # Main CLI entry point
+├── proxy_utils.py         # Shared chain query & RealPaysFee utilities
+├── test_miner_cli.py      # Tests for CLI commands
+├── test_proxy_utils.py    # Tests for proxy utilities
+├── README.md
+├── pytest.ini
+└── requirements-test.txt
+```
 
 ## Support & Resources
 
@@ -410,11 +251,3 @@ pytest test_miner_cli.py --cov=miner_cli --cov-report=html
 - **TrustedStake Docs**: https://trustedstake.gitbook.io/trustedstake/
 - **TrustedStake App**: https://app.trustedstake.ai/strat
 - **Bittensor Docs**: https://docs.learnbittensor.org/
-
-## Contributing
-
-Contributions are welcome! Please ensure all tests pass before submitting a pull request.
-
----
-
-**Note:** This CLI tool is an alternative method for managing delegations. The primary method is through the [TrustedStake web app](https://app.trustedstake.ai/strat).

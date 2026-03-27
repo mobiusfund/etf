@@ -1,7 +1,7 @@
 <div align="center">
 
-# HODL - The ETF Subnet
-### Incentivizing long-term conviction
+# HODL - The Alpha Exchange and ETF Subnet
+### Incentivizing market making and long-term conviction
 </div>
 
 ## Intro
@@ -12,7 +12,7 @@ For frequently asked questions, please see our [FAQ document](./Docs/FAQ.md).
 ## Roadmap
 
 - V1, Live at launch: HODL ETF
-- V2, Q1 2026: ETF Exchange
+- V2, Q1 2026: HODL Exchange
 - V3, Q3 2026: Futures and Options
 
 Transaction fees generated from V2/V3 will have a major percentage committed to automatic buybacks.
@@ -55,6 +55,8 @@ pm2 start neurons/validator.py \
 
 ## Mining
 
+#### ETF - Incentivized long-term conviction
+
 Please stake the miner coldkey in one of the supported [TrustedStake indexes](https://app.trustedstake.ai/strat) in order to receive emissions. Currently supported indexes are: TSBCSI, Top 10, Full Stack, Fintech, and Bittensor Universe.
 
 Besides the web-based app, a command-line app can be found under [contrib/miner_cli/](https://github.com/mobiusfund/etf/tree/main/contrib/miner_cli), developed by [Gritty_dev](https://github.com/codomposer).
@@ -63,9 +65,7 @@ It's important to note that the TrustedStake app is non-custodial. The app can s
 
 To avoid conflicts of interest, the TrustedStake app completely ignores subnet 118. It will not include 118 in any index, nor stake/unstake any 118 alpha.
 
-In addition, due to development involvement from Investing88 team members, subnet 88 has been removed from the Fintech and Bittensor Universe indexes for now, even though its inclusion long predated subnet 118. As the subnet and the TrustedStake app evolve, future inclusion or exclusion of 88 and all other subnets will be strictly based on objective criteria. No subnet will receive any special treatment.
-
-Total subnet emissions are equally divided among the supported indexes. Miner score is calculated using the formula below, where $$S$$ is the coldkey stake amount in Tao, and $$D$$ is the stake duration in days:
+Total ETF emissions are equally divided among the supported indexes. Miner score is calculated using the formula below, where $$S$$ is the coldkey stake amount in Tao, and $$D$$ is the stake duration in days:
 
 ```math
 \begin{aligned}
@@ -73,6 +73,14 @@ Total subnet emissions are equally divided among the supported indexes. Miner sc
 \\
 \end{aligned}
 ```
+
+#### IMM - Incentivized market making
+
+Please use the miner coldkey to fill orders at the [HODL Exchange](https://hodl.subnet118.com). A coldkey that has been staked in an ETF index described above will not be counted.
+
+Score is based on total fill volume in a rolling time window, currently 5 days. The window size may change over time. For buy orders, assets bought must remain in the coldkey during the time window in order to be counted.
+
+Total subnet emissions are divided between ETF and IMM based on a set ratio, currently defined as ETF = 0.75, IMM = 0.25. This ratio will change over time.
 
 ## License
 This repository is licensed under the MIT License.

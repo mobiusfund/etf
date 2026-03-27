@@ -25,3 +25,7 @@ GAMMA = 1.00
 KAPPA = 0.25
 DNORM = 30
 DMAX = 36500
+
+IMM_DATA = 'https://api.subnet118.com/imm/data'
+IMM_WINDOW = 'https://api.subnet118.com/imm/window'
+IMM_RATIO = 'https://api.subnet118.com/imm/ratio'

@@ -23,7 +23,6 @@ def update():
     return err
 
 def score1(netuid=NETUID):
-    print('ETF:')
     sc = pd.DataFrame(columns=['uid', 'hotkey', 'coldkey', 'count', 'index', 'block', 'days', 'balance', 'score'])
     bl = requests.get(COLDKEY_BL).json()
     ckblk = [{d['address']:d['fromBlock'] for d in requests.get(f'{INDEX_API}/{i}').json()['delegators']
@@ -78,6 +77,7 @@ def score1(netuid=NETUID):
     ir = str([f'{i:.2f}' for i in ir]).replace("'", '')
     it = str([f'{i:.2f}' for i in it]).replace("'", '')
 
+    print('ETF:')
     print(sc.sort_values(['score', 'block'], na_position='first').to_string(index=False))
     print(f'index label: {il}')
     print(f'index ratio: {ir}')
